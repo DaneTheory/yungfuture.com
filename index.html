@@ -1,17 +1,82 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>yung//future</title>
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="UTF-8" />
+	
+<!--      _____                   _______                   _____                    _____                    _____          
+         /\    \                 /::\    \                 /\    \                  /\    \                  /\    \         
+        /::\____\               /::::\    \               /::\____\                /::\____\                /::\    \        
+       /::::|   |              /::::::\    \             /::::|   |               /:::/    /               /::::\    \       
+      /:::::|   |             /::::::::\    \           /:::::|   |              /:::/    /               /::::::\    \      
+     /::::::|   |            /:::/~~\:::\    \         /::::::|   |             /:::/    /               /:::/\:::\    \     
+    /:::/|::|   |           /:::/    \:::\    \       /:::/|::|   |            /:::/____/               /:::/__\:::\    \    
+   /:::/ |::|   |          /:::/    / \:::\    \     /:::/ |::|   |           /::::\    \               \:::\   \:::\    \   
+  /:::/  |::|___|______   /:::/____/   \:::\____\   /:::/  |::|   | _____    /::::::\____\________    ___\:::\   \:::\    \  
+ /:::/   |::::::::\    \ |:::|    |     |:::|    | /:::/   |::|   |/\    \  /:::/\:::::::::::\    \  /\   \:::\   \:::\    \ 
+/:::/    |:::::::::\____\|:::|____|     |:::|    |/:: /    |::|   /::\____\/:::/  |:::::::::::\____\/::\   \:::\   \:::\____\
+\::/    / ~~~~~/:::/    / \:::\    \   /:::/    / \::/    /|::|  /:::/    /\::/   |::|~~~|~~~~~     \:::\   \:::\   \::/    /
+ \/____/      /:::/    /   \:::\    \ /:::/    /   \/____/ |::| /:::/    /  \/____|::|   |           \:::\   \:::\   \/____/ 
+             /:::/    /     \:::\    /:::/    /            |::|/:::/    /         |::|   |            \:::\   \:::\    \     
+            /:::/    /       \:::\__/:::/    /             |::::::/    /          |::|   |             \:::\   \:::\____\    
+           /:::/    /         \::::::::/    /              |:::::/    /           |::|   |              \:::\  /:::/    /    
+          /:::/    /           \::::::/    /               |::::/    /            |::|   |               \:::\/:::/    /     
+         /:::/    /             \::::/    /                /:::/    /             |::|   |                \::::::/    /      
+        /:::/    /               \::/____/                /:::/    /              \::|   |                 \::::/    /       
+        \::/    /                 ~~                      \::/    /                \:|   |                  \::/    /        
+         \/____/                                           \/____/                  \|___|                   \/____/         
+                                                                                                                           
+                                                                                                                           
+                                                                    This website was lovingly typed by Andrew Monks
+                                                                                                    http://monks.co
+                                                                                                         a@monks.co  -->
+
+
+
+
+<!-- 	meta -->
+	<title>-----yung future-----</title>
+	<meta name="msvalidate.01" content="BE5E85044D732A5C38594A33E7FF17DB" />
+	<!-- <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=2.0; user-scalable=1;"/> -->
+	<meta property="og:title" content="Yung Future"/>
+	<meta property="og:site_name" content="Yung Future"/>
+	<meta property="og:type" content="video.other"/>
+	<meta property="og:email" content="a@monks.co"/>
+	<meta property="og:locality" content="Chicago"/>
+	<meta property="og:region" content="IL"/>
+	<meta property="og:postal-code" content="60601"/>
+	<meta property="og:country-name" content="USA"/>
+	<meta property="og:url" content="http://monks.co/"/>
+	<meta property="og:image" content="http://monks.co/images/yungfuture.png"/>
+	<meta property="og:image:type" content="image/png"/>
+	<meta property="og:image:width" content="468"/>
+	<meta property="og:image:height" content="232"/>
+	<meta property="og:description" content="Yung Future is an online installation exploring themes of growth, magnitude, polarity, and expansion."/>
+	<meta name="description" content="Yung Future is an online installation exploring themes of growth, magnitude, polarity, and expansion."/>
 		<style>
 			body {
 				background-color: #000000;
-				font-family: Monospace;
 				margin: 0;
 				overflow: hidden;
+			}
+			a, a:visited, body {
+				font-size: 1.2em;
+				font-family: sans-serif;
+				font-weight: bold;
+				color: #ffffff;
+				text-decoration: none;
+			}
+			#tag {
+				position: absolute;
+				left: 5px;
+				bottom: 5px;
 			}
 		</style>
 	</head>
 	<body>
+		<div id="tag"><a href="http://monks.co">A</a></div>
 		<script src="three.js"></script>
 		<script src="FirstPersonControls.js"></script>
 		<audio src="shepard.ogg" autoplay loop>
@@ -141,7 +206,7 @@
 
 
 				// set initial time (animate() needs duration since last frame)
-				lastTime = time.now();
+				lastTime = performance.now();
 
 			}
 
