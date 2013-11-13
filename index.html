@@ -56,18 +56,17 @@
 	<meta property="og:description" content="Yung Future is an online installation exploring themes of growth, magnitude, polarity, and expansion."/>
 	<meta name="description" content="Yung Future is an online installation exploring themes of growth, magnitude, polarity, and expansion."/>
 		<style>
-			body {
-				background-color: #000000;
-				margin: 0;
-				overflow: hidden;
-			}
-			a, a:visited, body {
-				font-size: 1.2em;
-				font-family: sans-serif;
-				font-weight: bold;
-				color: #ffffff;
-				text-decoration: none;
-			}
+		    body, a, a:visited {
+		        font-family: sans-serif;
+		        font-weight: bold;
+		        color: #ffffff;
+		        text-decoration: none;
+		    }
+		    body {
+		        background-color: #000;
+		        margin: 0;
+		        overflow: 0;
+		    }
 			#chrome {
 				position: absolute;
 				left: 5px;
@@ -79,20 +78,32 @@
 				left: 5px;
 				bottom: 5px;
 			}
+            #nav {
+                position: absolute;
+                left: 5px;
+                top: 5px;
+            }
 		</style>
 	</head>
 	<body>
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-22952798-9', 'yungfuture.com');
+			ga('send', 'pageview');
+		</script>
 		<div id="tag"><a href="http://monks.co">A</a></div>
 		<script src="three.js"></script>
 		<script src="FirstPersonControls.js"></script>
+		<script src="Detector.js"></script>
 		<audio src="shepard.ogg" autoplay loop>
 			<p>Your browser does not support the audio element </p>
 		</audio>
 		<script>
-			var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-			if (!is_chrome) {
-    			document.write('<'+'div id="chrome">REQUIRES <a href="https://www.google.com/chrome/">CHROME</a></div>');
-			}
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 		</script>
 		<script defer="defer">
 
@@ -218,7 +229,7 @@
 
 
 				// set initial time (animate() needs duration since last frame)
-				lastTime = performance.now();
+				lastTime = Date.now();
 
 			}
 
@@ -308,7 +319,7 @@
 
 
 				// increment time
-				var time = performance.now() / 1000;
+				var time = Date.now() / 1000;
 				periodicCounter += periodicIncrement;
 
 				// update controls
@@ -327,5 +338,14 @@
 			}
 
 		</script>
+	    <div id="nav">
+			1
+	        <a href="http://yungfuture.com/city">2</a>
+	        <a href="http://yungfuture.com/clouds/">3</a>
+			<a href="http://yungfuture.com/data">4</a>
+	        <a href="http://yungfuture.com/leaftype/">5</a>
+	        <a href="http://yungfuture.com/leaftype/b.html">6</a>
+	        <a href="http://yungfuture.com/japan/">7</a>
+	    </div>
 	</body>
 </html>

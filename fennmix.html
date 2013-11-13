@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+    body {
+        background-color: #ffffff;
+        margin: 0;
+        overflow: hidden;
+    }
+    </style>
+</head>
+
+<body>
+
+    <script src="http://brangerbriz.net/labs/threejs_playGnd/js/three.min.js"></script>
+    <script src="http://nickbriz.com/other/webgl/js/ShaderToon.js"></script>
+	<script src="http://brangerbriz.net/labs/threejs_playGnd/js/Detector.js"></script>
+    <script>
+    if (!Detector.webgl) Detector.addGetWebGLMessage();
+
+    var camera, scene, renderer;
+    var geometry, material, mesh;
+
+    function setup() {
+
+        var W = window.innerWidth,
+            H = window.innerHeight;
+        renderer = new THREE.WebGLRenderer({
+            preserveDrawingBuffer: true
+        });
+        renderer.autoClearColor = false;
+        renderer.setSize(W, H);
+        document.body.appendChild(renderer.domElement);
+
+
+
+
+
+
+        camera = new THREE.PerspectiveCamera(50, W / H, 1, 10000);
+        camera.position.z = 500;
+
+        scene = new THREE.Scene();
+
+		// LIGHTS
+
+				light = new THREE.DirectionalLight( 0xffffff );
+				light.position.set( 0.5, 0.5, 1 );
+				scene.add( light );
+
+				pointLight = new THREE.PointLight( 0xff3300 );
+				pointLight.position.set( 0, 0, 100 );
+				scene.add( pointLight );
+
+				ambientLight = new THREE.AmbientLight( 0x080808 );
+				scene.add( ambientLight );
+
+        geometry = new THREE.OctahedronGeometry(180.02, 0);
+
+        material = createShaderMaterial("dotted", light, ambientLight);
+        material.uniforms.uBaseColor.value.setRGB(0, 0, 0);
+        material.uniforms.uLineColor1.value.setHSL(1, 1.0, 0.5);
+
+
+        mesh = new THREE.Mesh(geometry, material);
+        mesh.scale.x = mesh.scale.y = mesh.scale.z = 1.11;
+        mesh.position.y = 50.73;
+        mesh.castShadow = true;
+        scene.add(mesh);
+
+        geometry = new THREE.Geometry();
+        for (i = 0; i < 5000; i++) {
+            var vertex = new THREE.Vector3();
+            vertex.x = 1000 * Math.random() - 500;
+            vertex.y = 1000 * Math.random() - 500;
+            vertex.z = 1000 * Math.random() - 500;
+            geometry.vertices.push(vertex);
+        }
+
+        particles = new THREE.ParticleSystem(geometry, material);
+        particles.sortParticles = true;
+        scene.add(particles);
+
+        bg = document.body.style;
+        bg.background = '#102810';
+
+        renderer.shadowMapEnabled = true;
+
+        scene.fog = new THREE.Fog(0x0050d2, 111.28, 2647.64);
+
+
+
+
+        // ambientLight = new THREE.AmbientLight(0x000000);
+        // scene.add(ambientLight);
+
+        // hemisphereLight = new THREE.HemisphereLight(0x553e3e, 0x0c0c0c, 0.34);
+        // scene.add(hemisphereLight);
+
+        // directionalLight = new THREE.DirectionalLight(0x841818, 0.32);
+        // directionalLight.position.set(-4.5, -1.53, 5.26);
+        // directionalLight.castShadow = true;
+        // scene.add(directionalLight);
+
+        // spotLight1 = new THREE.SpotLight(0xffffff, 0.1);
+        // spotLight1.position.set(100, 1000, 100);
+        // spotLight1.castShadow = true;
+        // spotLight1.shadowDarkness = 0.3;
+        // scene.add(spotLight1);
+
+        // spotLight2 = new THREE.SpotLight(0x041425, 7.17);
+        // spotLight2.position.set(808.72, 191.11, 676.37);
+        // spotLight2.castShadow = true;
+        // spotLight2.shadowDarkness = 0.57;
+        // scene.add(spotLight2);
+
+
+    }
+
+    function createShaderMaterial(id, light, ambientLight) {
+        var shader = THREE.ShaderToon[id];
+        var u = THREE.UniformsUtils.clone(shader.uniforms);
+        var vs = shader.vertexShader;
+        var fs = shader.fragmentShader;
+        var material = new THREE.ShaderMaterial({
+            uniforms: u,
+            vertexShader: vs,
+            fragmentShader: fs
+        });
+        material.uniforms.uDirLightPos.value = light.position;
+        material.uniforms.uDirLightColor.value = light.color;
+        material.uniforms.uAmbientLightColor.value = ambientLight.color;
+        return material;
+    }
+
+
+    function draw() {
+
+        requestAnimationFrame(draw);
+
+        // experiment with code from the snippets menu here
+        mesh.rotation.x = Date.now() * 0.00002;
+        mesh.rotation.y = Date.now() * 0.00005;
+        mesh.rotation.z = Date.now() * 0.00007;
+
+        mesh.position.x = Math.sin(Date.now() * 0.0007) * 80;
+        mesh.position.y = Math.sin(Date.now() * 0.001) * 25;
+        mesh.rotation.z = Math.sin(Date.now() * 0.001) * 10;
+
+        var s = Math.sin(Date.now() * 0.003);
+        var time = Date.now() * 0.0005;
+        h = (360 * (1.0 + time) % 360) / 360;
+
+        particles.rotation.y = Date.now() * 0.00005;
+
+        var time = Date.now() * 0.0001;
+        h = (180 * (1.0 + time) % 270) / 360;
+
+        renderer.render(scene, camera);
+
+
+    }
+
+    setup();
+    draw();
+    //by fenn macon
+    //shoutouts to monks
+    </script>
+
+</body>
+
+</html>

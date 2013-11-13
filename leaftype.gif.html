@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<script src='vendor/three.js/build/three.js'></script>
+<script src='threex.vertexanimation.js'></script>
+<script src='ShaderToon.js'></script>
+<script src="fonts/helvetiker_regular.typeface.js"></script>
+<script src="Detector.js"></script>
+
+<body style='margin: 0px; background-color: #000000; overflow: hidden;'>
+    <script>
+    if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+    var i;
+    var renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: false});
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.autoClearColor = false;
+    document.body.appendChild(renderer.domElement);
+    var yAxis = new THREE.Vector3(0, 1, 0);
+
+    var shininess = 100,
+        specular = 0x333333,
+        bumpScale = 100000,
+        shading = THREE.SmoothShading;
+
+    var thickness = 500;
+
+    var updateFcts = [];
+    var scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, thickness + 5000);
+    camera.position.set(330, 700, thickness + 1800);
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //		create an mesh							//
+    //////////////////////////////////////////////////////////////////////////////////	
+    var material;
+    var imgTexture = THREE.ImageUtils.loadTexture("textures/lavatile.jpg");
+    imgTexture.repeat.set(4, 2);
+    imgTexture.wrapS = imgTexture.wrapT = THREE.RepeatWrapping;
+    imgTexture.anisotropy = 16;
+
+
+
+    // LIGHTS
+
+    light = new THREE.DirectionalLight(0xffffff);
+    light.position.set(300, 1000, thickness + 1000);
+    scene.add(light);
+
+    // pointLight = new THREE.PointLight(0xff3300);
+    // pointLight.position.set(300, 700, thickness + 2000);
+    // scene.add(pointLight);
+
+    ambientLight = new THREE.AmbientLight(0x080808);
+    scene.add(ambientLight);
+
+    // Get text from hash
+
+    var theText = "leaftype";
+
+    var hash = document.location.hash.substr(1);
+
+    if (hash.length !== 0) {
+
+        theText = hash;
+
+    }
+
+    var geometry = new THREE.TextGeometry(theText, {
+
+        size: 160,
+        height: thickness,
+        curveSegments: 10,
+        font: "helvetiker"
+
+    });
+
+
+
+    var textMaterial = new THREE.MeshBasicMaterial({
+        color: Math.random() * 0xffffff,
+        overdraw: true
+    });
+
+    geometry.verticesNeedUpdate = true;
+    geometry.elementsNeedUpdate = true;
+    geometry.morphTargetsNeedUpdate = true;
+    geometry.uvsNeedUpdate = true;
+    geometry.normalsNeedUpdate = true;
+    geometry.colorsNeedUpdate = true;
+    geometry.tangentsNeedUpdate = true;
+    geometry.dynamic = true;
+
+
+
+    // normals
+    material = new THREE.MeshNormalMaterial({
+        wireframe: false,
+        wireframeLinewidth: 5.0
+
+        // depthTest: true
+    });
+
+    // // nick briz thing
+    // material = createShaderMaterial("hatching", light, ambientLight);
+    // material.uniforms.uBaseColor.value.setRGB(1, 1, 1);
+    // material.uniforms.uLineColor1.value.setHSL(1, 1.0, 0.5);
+
+
+    // // lava thing
+    // material = new THREE.MeshPhongMaterial({
+    //     map: imgTexture,
+    //     bumpMap: imgTexture,
+    //     bumpScale: bumpScale,
+    //     scale: bumpScale,
+    //     color: 0xffffff,
+    //     ambient: 0x000000,
+    //     specular: specular,
+    //     shininess: shininess,
+    //     shading: shading
+    // });
+
+
+    material.needsUpdate = true;
+
+    geometry.computeBoundingBox();
+    var centerOffset = -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
+
+
+    var mesh = new THREE.Mesh(geometry, material);
+    mesh.position.y += 180;
+    // mesh.rotateY(.2);
+    THREE.GeometryUtils.merge(geometry, mesh);
+    mesh.position.y += 180;
+    // mesh.rotateY(.2);
+    THREE.GeometryUtils.merge(geometry, mesh);
+    mesh.position.y += 360;
+    // mesh.rotateY(.2);
+    THREE.GeometryUtils.merge(geometry, mesh);
+
+    // mesh.rotateY(-.5);
+
+    mesh.scale.x *= 1.8;
+
+    mesh.position.x = centerOffset;
+    mesh.position.y = 0;
+    mesh.position.z = 0;
+
+
+
+    scene.add(mesh);
+
+    // Rotate an object around an arbitrary axis in object space
+    var rotObjectMatrix;
+
+    function rotateAroundObjectAxis(object, axis, radians) {
+        rotObjectMatrix = new THREE.Matrix4();
+        rotObjectMatrix.makeRotationAxis(axis.normalize(), radians);
+
+        // old code for Three.JS pre r54:
+        // object.matrix.multiplySelf(rotObjectMatrix);      // post-multiply
+        // new code for Three.JS r55+:
+        object.matrix.multiply(rotObjectMatrix);
+
+        // old code for Three.js pre r49:
+        // object.rotation.getRotationFromMatrix(object.matrix, object.scale);
+        // new code for Three.js r50+:
+        object.rotation.setEulerFromRotationMatrix(object.matrix);
+    }
+    //////////////////////////////////////////////////////////////////////////////////
+    //		Do a vertex animation on this mesh				//
+    //////////////////////////////////////////////////////////////////////////////////
+
+    // instanciate the animation object
+    var animation = new THREEx.VertexAnimation(geometry, function(origin, position, delta, now) {
+        // here you put your formula, something clever which fit your needs
+        var anglex = now + origin.y / 100.0 + origin.x / 100.0 + origin.z / 100.0;
+        var angley = now + origin.y / 100.0 + origin.x / 100.0 + origin.z / 100.0;
+        var anglez = now + origin.y / 100.0 + origin.x / 100.0 + origin.z / 100.0;
+        position.x = origin.x + ( 40 *  (Math.cos(anglex) - .5) );
+        position.y = origin.y + ( 40 *  (Math.cos(angley) - .5) );
+        // position.z = origin.z + ( -50 *  (Math.cos(anglez) - .5) );
+        // position.z += (Math.random() - .5) * 2;
+        // position.y += (Math.random() - .5) * 2;
+        // position.x += (Math.random() - .5) * 2;
+        // position.z += (Math.random() - .5) * 2;
+        // geometry.computeFaceNormals();
+    })
+    // update the animation at every frame
+    updateFcts.push(function(delta, now) {
+        animation.update(delta, now)
+    })
+
+        function createShaderMaterial(id, light, ambientLight) {
+            var shader = THREE.ShaderToon[id];
+            var u = THREE.UniformsUtils.clone(shader.uniforms);
+            var vs = shader.vertexShader;
+            var fs = shader.fragmentShader;
+            var material = new THREE.ShaderMaterial({
+                uniforms: u,
+                vertexShader: vs,
+                fragmentShader: fs
+            });
+            material.uniforms.uDirLightPos.value = light.position;
+            material.uniforms.uDirLightColor.value = light.color;
+            material.uniforms.uAmbientLightColor.value = ambientLight.color;
+            return material;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////
+        //		Camera Controls							//
+        // //////////////////////////////////////////////////////////////////////////////////
+        // var mouse = {
+        //     x: 0,
+        //     y: 0
+        // }
+        // document.addEventListener('mousemove', function(event) {
+        //     mouse.x = (event.clientX / window.innerWidth) - 0.5
+        //     mouse.y = (event.clientY / window.innerHeight) - 0.5
+        // }, false)
+        // updateFcts.push(function(delta, now) {
+        //     camera.position.x += (mouse.x * 5 - camera.position.x) * (delta * 3)
+        //     camera.position.y += (mouse.y * 5 - camera.position.y) * (delta * 3)
+        //     camera.lookAt(scene.position)
+        // })
+
+
+        //////////////////////////////////////////////////////////////////////////////////
+        //		render the scene						//
+        //////////////////////////////////////////////////////////////////////////////////
+    updateFcts.push(function() {
+        // rotateAroundObjectAxis(mesh,yAxis,.01);
+        renderer.render(scene, camera);
+    })
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //		loop runner							//
+    //////////////////////////////////////////////////////////////////////////////////
+    var lastTimeMsec = null
+    requestAnimationFrame(function animate(nowMsec) {
+        i++;
+        // if (i % 10 == 0){
+        geometry.computeVertexNormals();
+        geometry.computeFaceNormals();
+        // }
+        // keep looping
+
+        requestAnimationFrame(animate);
+        // measure time
+        lastTimeMsec = lastTimeMsec || nowMsec - 1000 / 60
+        var deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
+        lastTimeMsec = nowMsec
+        // call each update function
+        updateFcts.forEach(function(updateFn) {
+            updateFn(deltaMsec / 1000, nowMsec / 1000)
+        })
+    })
+    </script>
+</body>
