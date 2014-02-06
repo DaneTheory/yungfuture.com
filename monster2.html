@@ -96,8 +96,8 @@
 
         requestAnimationFrame(animate);
 
-        camera.position.x += ( mouseX - camera.position.x ) * .005;
-		camera.position.y += ( - mouseY - camera.position.y ) * .005;
+        camera.position.x += ( mouseX - camera.position.x ) * .00005;
+		camera.position.y += ( - mouseY - camera.position.y ) * .00005;
 		camera.lookAt( scene.position );
 
         renderer.render(scene, camera);
