@@ -64,8 +64,6 @@
 
         loader.load("/js/girdogpig.js", function(geometry) {
 
-            //var geometry = new THREE.CubeGeometry(5,10,5);
-
             mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial());
             mesh.scale.set(1, 1, 1);
             mesh.position.y = -1;
@@ -73,8 +71,6 @@
             scene.add(mesh);
 
         });
-
-
 
         var ambientLight = new THREE.AmbientLight(0x555555);
         scene.add(ambientLight);
@@ -96,11 +92,11 @@
 
         mesh.rotation.y += .005;
 
-		camera.lookAt( scene.position );
+        camera.lookAt(scene.position);
 
         renderer.render(scene, camera);
-    }
 
+    }
     </script>
     <div id="nav">
         <span class="current">monster</span>
