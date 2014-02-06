@@ -44,11 +44,6 @@
 
     <script>
     var camera, scene, renderer, mesh, loader;
-	var mouseX = 0, mouseY = 0;
-	var windowHalfX = window.innerWidth / 2;
-	var windowHalfY = window.innerHeight / 2;
-
-	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
 
     init();
@@ -96,20 +91,12 @@
 
         requestAnimationFrame(animate);
 
-        camera.position.x += ( mouseX - camera.position.x ) * .00005;
-		camera.position.y += ( - mouseY - camera.position.y ) * .00005;
+        scene.rotation.y += .0001;
 		camera.lookAt( scene.position );
 
         renderer.render(scene, camera);
     }
 
-
-	function onDocumentMouseMove(event) {
-
-		mouseX = ( event.clientX - windowHalfX );
-		mouseY = ( event.clientY - windowHalfY );
-
-	}
     </script>
 
 </body>
