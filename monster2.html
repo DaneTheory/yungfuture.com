@@ -51,7 +51,8 @@
     function init() {
 
         camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-        camera.position.z = 30
+        camera.position.z = 5
+        camera.position.y = 2
 
         scene = new THREE.Scene();
 
@@ -62,7 +63,7 @@
             //var geometry = new THREE.CubeGeometry(5,10,5);
 
             mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial());
-            mesh.scale.set(10, 10, 10);
+            mesh.scale.set(1, 1, 1);
             mesh.position.y = 0;
             mesh.position.x = 0;
             scene.add(mesh);
@@ -88,8 +89,6 @@
     function animate() {
 
         requestAnimationFrame(animate);
-
-        mesh.rotation.y += 0.005;
 
         renderer.render(scene, camera);
     }
